@@ -7,7 +7,16 @@ class Camera extends PhotoGear {
   final double resolution; // resolution in megapixels
   final int shutterCount;
 
-  Camera(int? id, String make, String model, String serialNumber, String note, this.sensorSize,
-      this.resolution, this.shutterCount)
-      : super(id, make, model, serialNumber, note);
+  Camera(
+      int? id,
+      String make,
+      String model,
+      String serialNumber,
+      int value,
+      String valueCurrency,
+      String note,
+      this.sensorSize,
+      this.resolution,
+      this.shutterCount)
+      : super(id, make, model, serialNumber, value, valueCurrency, note);
 }

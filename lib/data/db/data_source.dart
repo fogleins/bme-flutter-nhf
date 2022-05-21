@@ -68,8 +68,8 @@ extension FloorCameraToCamera on FloorCamera {
       default:
         throw ArgumentError("Cannot convert number to enum");
     }
-    return Camera(id, make, model, serialNumber, note, sensorSize, resolution,
-        shutterCount);
+    return Camera(id, make, model, serialNumber, value, valueCurrency, note,
+        sensorSize, resolution, shutterCount);
   }
 }
 
@@ -79,6 +79,8 @@ extension CameraToFloorCamera on Camera {
         make: make,
         model: model,
         serialNumber: serialNumber,
+        value: value,
+        valueCurrency: valueCurrency,
         note: note,
         sensorSize: sensorSize.index,
         resolution: resolution,
@@ -88,8 +90,18 @@ extension CameraToFloorCamera on Camera {
 
 extension FloorLensToLens on FloorLens {
   Lens toDomainModel() {
-    return Lens(id, make, model, serialNumber, note, maximumAperture,
-        minimumAperture, filterThreadDiameter, hasImageStabilization);
+    return Lens(
+        id,
+        make,
+        model,
+        serialNumber,
+        value,
+        valueCurrency,
+        note,
+        maximumAperture,
+        minimumAperture,
+        filterThreadDiameter,
+        hasImageStabilization);
   }
 }
 
@@ -99,6 +111,8 @@ extension LensToFloorLens on Lens {
         make: make,
         model: model,
         serialNumber: serialNumber,
+        value: value,
+        valueCurrency: valueCurrency,
         note: note,
         maximumAperture: maximumAperture,
         minimumAperture: minimumAperture,

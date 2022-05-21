@@ -84,9 +84,9 @@ class _$FloorPhotoGearDatabase extends FloorPhotoGearDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `camera` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `note` TEXT NOT NULL, `sensorSize` INTEGER NOT NULL, `resolution` REAL NOT NULL, `shutterCount` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `camera` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL, `sensorSize` INTEGER NOT NULL, `resolution` REAL NOT NULL, `shutterCount` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `lens` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `note` TEXT NOT NULL, `maximumAperture` REAL NOT NULL, `minimumAperture` REAL NOT NULL, `filterThreadDiameter` INTEGER NOT NULL, `hasImageStabilization` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `lens` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL, `maximumAperture` REAL NOT NULL, `minimumAperture` REAL NOT NULL, `filterThreadDiameter` INTEGER NOT NULL, `hasImageStabilization` INTEGER NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -116,6 +116,8 @@ class _$FloorCameraDao extends FloorCameraDao {
                   'make': item.make,
                   'model': item.model,
                   'serialNumber': item.serialNumber,
+                  'value': item.value,
+                  'valueCurrency': item.valueCurrency,
                   'note': item.note,
                   'sensorSize': item.sensorSize,
                   'resolution': item.resolution,
@@ -138,6 +140,8 @@ class _$FloorCameraDao extends FloorCameraDao {
             make: row['make'] as String,
             model: row['model'] as String,
             serialNumber: row['serialNumber'] as String,
+            value: row['value'] as int,
+            valueCurrency: row['valueCurrency'] as String,
             note: row['note'] as String,
             sensorSize: row['sensorSize'] as int,
             resolution: row['resolution'] as double,
@@ -152,6 +156,8 @@ class _$FloorCameraDao extends FloorCameraDao {
             make: row['make'] as String,
             model: row['model'] as String,
             serialNumber: row['serialNumber'] as String,
+            value: row['value'] as int,
+            valueCurrency: row['valueCurrency'] as String,
             note: row['note'] as String,
             sensorSize: row['sensorSize'] as int,
             resolution: row['resolution'] as double,
@@ -183,6 +189,8 @@ class _$FloorLensDao extends FloorLensDao {
                   'make': item.make,
                   'model': item.model,
                   'serialNumber': item.serialNumber,
+                  'value': item.value,
+                  'valueCurrency': item.valueCurrency,
                   'note': item.note,
                   'maximumAperture': item.maximumAperture,
                   'minimumAperture': item.minimumAperture,
@@ -206,6 +214,8 @@ class _$FloorLensDao extends FloorLensDao {
             make: row['make'] as String,
             model: row['model'] as String,
             serialNumber: row['serialNumber'] as String,
+            value: row['value'] as int,
+            valueCurrency: row['valueCurrency'] as String,
             note: row['note'] as String,
             maximumAperture: row['maximumAperture'] as double,
             minimumAperture: row['minimumAperture'] as double,
@@ -221,6 +231,8 @@ class _$FloorLensDao extends FloorLensDao {
             make: row['make'] as String,
             model: row['model'] as String,
             serialNumber: row['serialNumber'] as String,
+            value: row['value'] as int,
+            valueCurrency: row['valueCurrency'] as String,
             note: row['note'] as String,
             maximumAperture: row['maximumAperture'] as double,
             minimumAperture: row['minimumAperture'] as double,

@@ -7,6 +7,8 @@ class FloorCamera {
   String make;
   String model;
   String serialNumber;
+  int value;
+  String valueCurrency;
   String note;
   int sensorSize;
   double resolution;
@@ -17,6 +19,8 @@ class FloorCamera {
       required this.make,
       required this.model,
       required this.serialNumber,
+      required this.value,
+      required this.valueCurrency,
       required this.note,
       required this.sensorSize,
       required this.resolution,

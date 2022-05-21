@@ -11,10 +11,12 @@ class Lens extends PhotoGear {
       String make,
       String model,
       String serialNumber,
+      int value,
+      String valueCurrency,
       String note,
       this.maximumAperture,
       this.minimumAperture,
       this.filterThreadDiameter,
       this.hasImageStabilization)
-      : super(id, make, model, serialNumber, note);
+      : super(id, make, model, serialNumber, value, valueCurrency, note);
 }

@@ -7,6 +7,8 @@ class FloorLens {
   String make;
   String model;
   String serialNumber;
+  int value;
+  String valueCurrency;
   String note;
   double maximumAperture;
   double minimumAperture;
@@ -18,6 +20,8 @@ class FloorLens {
       required this.make,
       required this.model,
       required this.serialNumber,
+      required this.value,
+      required this.valueCurrency,
       required this.note,
       required this.maximumAperture,
       required this.minimumAperture,
