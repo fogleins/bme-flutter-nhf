@@ -7,6 +7,7 @@ class Lens extends PhotoGear {
   final bool hasImageStabilization;
 
   Lens(
+      int? id,
       String make,
       String model,
       String serialNumber,
@@ -15,5 +16,5 @@ class Lens extends PhotoGear {
       this.minimumAperture,
       this.filterThreadDiameter,
       this.hasImageStabilization)
-      : super(make, model, serialNumber, note);
+      : super(id, make, model, serialNumber, note);
 }
