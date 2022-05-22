@@ -18,33 +18,36 @@ class CameraListItem implements PhotoGearListItem {
   Widget buildContent(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Column(
-              // List of keys
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Serial number:", textAlign: TextAlign.start),
-                const Text("Value:", textAlign: TextAlign.start),
-                const Text("Sensor size:", textAlign: TextAlign.start),
-                const Text("Resolution:"),
-                const Text("Shutter count:"),
-                if (camera.note != "") const Text("Note:")
-              ],
-            ),
-            const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(camera.serialNumber),
-                Text("${camera.value} ${camera.valueCurrency}"),
-                Text(camera.sensorSize.index == 0 ? "APS-C" : "FullFrame"),
-                Text("${camera.resolution} MP"),
-                Text(camera.shutterCount.toString()),
-                if (camera.note != "") Text(camera.note)
-              ],
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          child: Row(
+            children: [
+              Column(
+                // List of keys
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Serial number:", textAlign: TextAlign.start),
+                  const Text("Value:", textAlign: TextAlign.start),
+                  const Text("Sensor size:", textAlign: TextAlign.start),
+                  const Text("Resolution:"),
+                  const Text("Shutter count:"),
+                  if (camera.note != "") const Text("Note:")
+                ],
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(camera.serialNumber),
+                  Text("${camera.value} ${camera.valueCurrency}"),
+                  Text(camera.sensorSize.index == 0 ? "APS-C" : "FullFrame"),
+                  Text("${camera.resolution} MP"),
+                  Text(camera.shutterCount.toString()),
+                  if (camera.note != "") Text(camera.note)
+                ],
+              ),
+            ],
+          ),
         ),
         Row(
           children: const [
@@ -81,38 +84,41 @@ class LensListItem implements PhotoGearListItem {
   Widget buildContent(BuildContext context) {
     return Column(
         children: [
-          Row(
-            children: [
-              Column(
-                // List of keys
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Serial number:", textAlign: TextAlign.start),
-                  const Text("Value:", textAlign: TextAlign.start),
-                  const Text("Maximum aperture:", textAlign: TextAlign.start),
-                  const Text("Minimum aperture:", textAlign: TextAlign.start),
-                  const Text("Filter thread diameter:", textAlign: TextAlign.start),
-                  const Text("Image stabilization:"),
-                  if (lens.note != "") const Text("Note:")
-                ],
-              ),
-              // const SizedBox(
-              //   width: 50,
-              // ),
-              const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(lens.serialNumber),
-                  Text("${lens.value} ${lens.valueCurrency}"),
-                  Text("f/${lens.maximumAperture}"),
-                  Text("f/${lens.minimumAperture}"),
-                  Text("${lens.filterThreadDiameter} mm"),
-                  Text(lens.hasImageStabilization ? "Yes" : "No"),
-                  if (lens.note != "") Text(lens.note)
-                ],
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Row(
+              children: [
+                Column(
+                  // List of keys
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Serial number:", textAlign: TextAlign.start),
+                    const Text("Value:", textAlign: TextAlign.start),
+                    const Text("Maximum aperture:", textAlign: TextAlign.start),
+                    const Text("Minimum aperture:", textAlign: TextAlign.start),
+                    const Text("Filter thread diameter:", textAlign: TextAlign.start),
+                    const Text("Image stabilization:"),
+                    if (lens.note != "") const Text("Note:")
+                  ],
+                ),
+                // const SizedBox(
+                //   width: 50,
+                // ),
+                const Spacer(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(lens.serialNumber),
+                    Text("${lens.value} ${lens.valueCurrency}"),
+                    Text("f/${lens.maximumAperture}"),
+                    Text("f/${lens.minimumAperture}"),
+                    Text("${lens.filterThreadDiameter} mm"),
+                    Text(lens.hasImageStabilization ? "Yes" : "No"),
+                    if (lens.note != "") Text(lens.note)
+                  ],
+                ),
+              ],
+            ),
           ),
           Row(
             children: const [
