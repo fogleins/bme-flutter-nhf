@@ -6,7 +6,8 @@ class EditCameraPage extends StatefulWidget {
   final Camera? camera;
   final Function onUpdateCallback;
 
-  const EditCameraPage({Key? key, required this.onUpdateCallback, this.camera}) : super(key: key);
+  const EditCameraPage({Key? key, required this.onUpdateCallback, this.camera})
+      : super(key: key);
 
   @override
   _EditCameraPageState createState() => _EditCameraPageState();
@@ -41,11 +42,28 @@ class _EditCameraPageState extends State<EditCameraPage> {
       noteTextController.text = camera.note;
       resolutionTextController.text = camera.resolution.toString();
       shutterCountTextController.text = camera.shutterCount.toString();
-      dropdownValue = camera.sensorSize.index == 0 ? sensorSizes[0] : sensorSizes[1];
+      dropdownValue =
+          camera.sensorSize.index == 0 ? sensorSizes[0] : sensorSizes[1];
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.camera == null ? "Add a camera" : "Edit ${widget.camera!.make} ${widget.camera!.model}"),
+        title: Text(widget.camera == null
+            ? "Add a camera"
+            : "Edit ${widget.camera!.make} ${widget.camera!.model}"),
+        actions: [
+          IconButton(
+              onPressed: widget.camera == null
+                  ? null
+                  : () async {
+                      await dataSource.deleteCamera(widget.camera!);
+                      Navigator.pop(context, true);
+                      var snackBar = SnackBar(
+                          content: Text(
+                              "${widget.camera!.make} ${widget.camera!.model} deleted."));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+              icon: const Icon(Icons.delete_outline))
+        ],
       ),
       body: SingleChildScrollView(
           child: Padding(

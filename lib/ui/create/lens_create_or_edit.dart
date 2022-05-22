@@ -46,7 +46,23 @@ class _EditLensPageState extends State<EditLensPage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.lens == null ? "Add a camera" : "Edit ${widget.lens!.make} ${widget.lens!.model}"),
+        title: Text(widget.lens == null
+            ? "Add a camera"
+            : "Edit ${widget.lens!.make} ${widget.lens!.model}"),
+        actions: [
+          IconButton(
+              onPressed: widget.lens == null
+                  ? null
+                  : () async {
+                      await dataSource.deleteLens(widget.lens!);
+                      Navigator.pop(context, true);
+                      var snackBar = SnackBar(
+                          content: Text(
+                              "${widget.lens!.make} ${widget.lens!.model} deleted."));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+              icon: const Icon(Icons.delete_outline))
+        ],
       ),
       body: SingleChildScrollView(
           child: Padding(
