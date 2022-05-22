@@ -16,7 +16,53 @@ class CameraListItem implements PhotoGearListItem {
 
   @override
   Widget buildContent(BuildContext context) {
-    return const Text("unimplemented"); // todo: content kitöltése több sorban?
+    return Column(
+      children: [
+        Row(
+          children: [
+            Column(
+              // List of keys
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Serial number:", textAlign: TextAlign.start),
+                const Text("Value:", textAlign: TextAlign.start),
+                const Text("Sensor size:", textAlign: TextAlign.start),
+                const Text("Resolution:"),
+                const Text("Shutter count:"),
+                if (camera.note != "") const Text("Note:")
+              ],
+            ),
+            const SizedBox(
+              width: 50,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(camera.serialNumber),
+                Text("${camera.value} ${camera.valueCurrency}"),
+                Text(camera.sensorSize.index == 0 ? "APS-C" : "FullFrame"),
+                Text("${camera.resolution} MP"),
+                Text(camera.shutterCount.toString()),
+                if (camera.note != "") Text(camera.note)
+              ],
+            ),
+          ],
+        ),
+        Row(
+          children: const [
+            Expanded(
+                child: Padding(
+              padding: EdgeInsets.only(top: 5.0),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 1,
+                height: 5,
+              ),
+            ))
+          ],
+        )
+      ],
+    );
   }
 
   @override
@@ -35,8 +81,55 @@ class LensListItem implements PhotoGearListItem {
 
   @override
   Widget buildContent(BuildContext context) {
-    // TODO: implement buildContent
-    return const Text("unimplemented");
+    return Column(
+        children: [
+          Row(
+            children: [
+              Column(
+                // List of keys
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Serial number:", textAlign: TextAlign.start),
+                  const Text("Value:", textAlign: TextAlign.start),
+                  const Text("Maximum aperture:", textAlign: TextAlign.start),
+                  const Text("Minimum aperture:", textAlign: TextAlign.start),
+                  const Text("Filter thread diameter:", textAlign: TextAlign.start),
+                  const Text("Image stabilization:"),
+                  if (lens.note != "") const Text("Note:")
+                ],
+              ),
+              const SizedBox(
+                width: 50,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(lens.serialNumber),
+                  Text("${lens.value} ${lens.valueCurrency}"),
+                  Text("f/${lens.maximumAperture}"),
+                  Text("f/${lens.minimumAperture}"),
+                  Text("${lens.filterThreadDiameter} mm"),
+                  Text(lens.hasImageStabilization ? "Yes" : "No"),
+                  if (lens.note != "") Text(lens.note)
+                ],
+              ),
+            ],
+          ),
+          Row(
+            children: const [
+              Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 5.0),
+                    child: Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                      height: 5,
+                    ),
+                  ))
+            ],
+          )
+        ],
+    );
   }
 
   @override
