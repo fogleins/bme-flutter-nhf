@@ -76,6 +76,7 @@ extension FloorCameraToCamera on FloorCamera {
 extension CameraToFloorCamera on Camera {
   FloorCamera toDbModel() {
     return FloorCamera(
+        id: id,
         make: make,
         model: model,
         serialNumber: serialNumber,
@@ -108,6 +109,7 @@ extension FloorLensToLens on FloorLens {
 extension LensToFloorLens on Lens {
   FloorLens toDbModel() {
     return FloorLens(
+        id: id,
         make: make,
         model: model,
         serialNumber: serialNumber,

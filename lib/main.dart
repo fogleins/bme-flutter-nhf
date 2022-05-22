@@ -19,8 +19,7 @@ void main() async {
   FloorLensRepository floorLensRepo = FloorLensRepository();
   await floorCameraRepo.init();
   await floorLensRepo.init();
-  dataSource =
-      DataSource(floorCameraRepo, floorLensRepo);
+  dataSource = DataSource(floorCameraRepo, floorLensRepo);
   await dataSource.init();
 
   MyPhotoGearApp app = const MyPhotoGearApp();
@@ -33,10 +32,11 @@ class MyPhotoGearApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "MyPhotoGear",
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MyPhotoGearHomePage(title: "MyPhotoGear"),
-    );
+        title: "MyPhotoGear",
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: const SafeArea(
+          child: MyPhotoGearHomePage(title: "MyPhotoGear"),
+        ));
   }
 }
 
@@ -59,13 +59,14 @@ class MyPhotoGearHomePage extends StatefulWidget {
   State<MyPhotoGearHomePage> createState() => _MyPhotoGearHomePageState();
 }
 
-// TODO
-class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> with WidgetsBindingObserver {
+class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage>
+    with WidgetsBindingObserver {
   static final List<PhotoGearListItem> listItems = <PhotoGearListItem>[];
   static late EditCameraPage editCameraPage;
   static late EditLensPage editLensPage;
+
   _MyPhotoGearHomePageState() {
-    editCameraPage = EditCameraPage(cbTo: updateLists);
+    editCameraPage = EditCameraPage(onUpdateCallback: updateLists);
     editLensPage = EditLensPage(cbTo: updateLists);
   }
 
@@ -77,19 +78,15 @@ class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> with WidgetsB
               children: <Widget>[
                 SimpleDialogOption(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => editCameraPage));
-                  }, // TODO: start new activity
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => editCameraPage));
+                  },
                   child: const Text("Camera", textScaleFactor: 1.1),
                 ),
                 SimpleDialogOption(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => editLensPage));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => editLensPage));
                     },
                     child: const Text("Lens", textScaleFactor: 1.1))
               ],
@@ -99,17 +96,16 @@ class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> with WidgetsB
   @override
   Widget build(BuildContext context) {
     return Builder(
-            builder: (context) => Scaffold(
-                  appBar: AppBar(title: const Text("MyPhotoGear")),
-                  floatingActionButton: FloatingActionButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .restorablePush(_showChooserDialog);
-                      },
-                      tooltip: "Add gear",
-                      child: const Icon(Icons.add)),
-                  body: SafeArea(child: getList()),
-                ));
+        builder: (context) => Scaffold(
+              appBar: AppBar(title: const Text("MyPhotoGear")),
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context).restorablePush(_showChooserDialog);
+                  },
+                  tooltip: "Add gear",
+                  child: const Icon(Icons.add)),
+              body: getList(),
+            ));
   }
 
   @override
@@ -127,12 +123,12 @@ class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> with WidgetsB
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // if (state == AppLifecycleState.resumed || state == AppLifecycleState.paused) {
-      updateLists();
-      build(context);
+    updateLists();
+    build(context);
     // }
     super.didChangeAppLifecycleState(state);
   }
-  
+
   void updateLists() async {
     final List<Camera> cameras = await dataSource.getAllCameras();
     final List<Lens> lenses = await dataSource.getAllLenses();
@@ -159,9 +155,27 @@ class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> with WidgetsB
       itemCount: listItems.length,
       itemBuilder: (context, index) {
         final listItem = listItems[index];
-        return ListTile(
-          title: listItem.buildTitle(context),
-          subtitle: listItem.buildContent(context),
+        return GestureDetector(
+          child: ListTile(
+            title: listItem.buildTitle(context),
+            subtitle: listItem.buildContent(context),
+          ),
+          onTap: () {
+            if (listItem is CameraListItem) {
+              // print("Lajos vagyok");
+              // TODO: camera details
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => EditCameraPage(
+                            onUpdateCallback: updateLists,
+                            camera: listItem.camera,
+                          )));
+            } else {
+              // todo print("Canon vagyok");
+              // lens details
+            }
+          },
         );
       },
     );

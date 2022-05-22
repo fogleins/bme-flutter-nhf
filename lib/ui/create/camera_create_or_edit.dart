@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:my_photo_gear/data/domain_model/camera.dart';
 import 'package:my_photo_gear/main.dart';
 
-late Function onUpdateCallback;
-
 class EditCameraPage extends StatefulWidget {
-  EditCameraPage({Key? key, required Function cbTo}) : super(key: key) {
-    onUpdateCallback = cbTo;
-  }
+  final Camera? camera;
+  final Function onUpdateCallback;
+
+  const EditCameraPage({Key? key, required this.onUpdateCallback, this.camera}) : super(key: key);
 
   @override
   _EditCameraPageState createState() => _EditCameraPageState();
@@ -19,6 +18,7 @@ class _EditCameraPageState extends State<EditCameraPage> {
   static const double topPadding = 20.0;
   final List<String> sensorSizes = ["APS-C", "FullFrame"];
   String dropdownValue = "APS-C";
+  String title = "Add a camera";
 
   final makeTextController = TextEditingController();
   final modelTextController = TextEditingController();
@@ -31,9 +31,21 @@ class _EditCameraPageState extends State<EditCameraPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.camera != null) {
+      Camera camera = widget.camera!;
+      makeTextController.text = camera.make;
+      modelTextController.text = camera.model;
+      serialNoTextController.text = camera.serialNumber;
+      valueTextController.text = camera.value.toString();
+      valueCurrencyTextController.text = camera.valueCurrency;
+      noteTextController.text = camera.note;
+      resolutionTextController.text = camera.resolution.toString();
+      shutterCountTextController.text = camera.shutterCount.toString();
+      dropdownValue = camera.sensorSize.index == 0 ? sensorSizes[0] : sensorSizes[1];
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add a camera"),
+        title: Text(widget.camera == null ? "Add a camera" : "Edit ${widget.camera!.make} ${widget.camera!.model}"),
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -185,7 +197,7 @@ class _EditCameraPageState extends State<EditCameraPage> {
               resolutionTextController.text.isNotEmpty &&
               shutterCountTextController.text.isNotEmpty) {
             Camera camera = Camera(
-                -1,
+                widget.camera == null ? -1 : widget.camera!.id,
                 makeTextController.text,
                 modelTextController.text,
                 serialNoTextController.text,
@@ -199,9 +211,12 @@ class _EditCameraPageState extends State<EditCameraPage> {
                 double.parse(resolutionTextController.text),
                 int.parse(shutterCountTextController.text));
             await dataSource.updateOrInsertCamera(camera);
-            await onUpdateCallback();
+            await widget.onUpdateCallback();
             Navigator.pop(context, true);
-            Navigator.pop(context, true);
+            // go back one more level if editing to close the dialog window
+            if (widget.camera == null) {
+              Navigator.pop(context, true);
+            }
           } else {
             const snackBar = SnackBar(
                 content:
