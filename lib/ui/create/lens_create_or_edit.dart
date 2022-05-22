@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_photo_gear/data/domain_model/lens.dart';
 import 'package:my_photo_gear/main.dart';
 
-late Function onUpdateCallback;
-
 class EditLensPage extends StatefulWidget {
-  EditLensPage({Key? key, required Function cbTo}) : super(key: key) {
-    onUpdateCallback = cbTo;
-  }
+  final Function onUpdateCallback;
+  final Lens? lens;
 
+  const EditLensPage({Key? key, required this.onUpdateCallback, this.lens})
+      : super(key: key);
 
   @override
   _EditLensPageState createState() => _EditLensPageState();
@@ -32,10 +31,22 @@ class _EditLensPageState extends State<EditLensPage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        Scaffold(
+    if (widget.lens != null) {
+      Lens lens = widget.lens!;
+      makeTextController.text = lens.make;
+      modelTextController.text = lens.model;
+      serialNoTextController.text = lens.serialNumber;
+      valueTextController.text = lens.value.toString();
+      valueCurrencyTextController.text = lens.valueCurrency;
+      noteTextController.text = lens.note;
+      maxApertureTextController.text = lens.maximumAperture.toString();
+      minApertureTextController.text = lens.minimumAperture.toString();
+      filterThreadTextController.text = lens.filterThreadDiameter.toString();
+      _checkboxState = lens.hasImageStabilization;
+    }
+    return Scaffold(
       appBar: AppBar(
-        title: const Text("Add a lens"),
+        title: Text(widget.lens == null ? "Add a camera" : "Edit ${widget.lens!.make} ${widget.lens!.model}"),
       ),
       body: SingleChildScrollView(
           child: Padding(
@@ -190,7 +201,7 @@ class _EditLensPageState extends State<EditLensPage> {
               minApertureTextController.text.isNotEmpty &&
               filterThreadTextController.text.isNotEmpty) {
             Lens lens = Lens(
-                -1,
+                widget.lens == null ? -1 : widget.lens!.id,
                 makeTextController.text,
                 modelTextController.text,
                 serialNoTextController.text,
@@ -202,9 +213,12 @@ class _EditLensPageState extends State<EditLensPage> {
                 int.parse(filterThreadTextController.text),
                 _checkboxState);
             await dataSource.updateOrInsertLens(lens);
-            await onUpdateCallback();
+            await widget.onUpdateCallback();
             Navigator.pop(context, true);
-            Navigator.pop(context, true);
+            // go back one more level to hide the dialog window if not editing
+            if (widget.lens == null) {
+              Navigator.pop(context, true);
+            }
           } else {
             const snackBar = SnackBar(
                 content:
