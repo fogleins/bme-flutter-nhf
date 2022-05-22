@@ -32,11 +32,9 @@ class CameraListItem implements PhotoGearListItem {
                 if (camera.note != "") const Text("Note:")
               ],
             ),
-            const SizedBox(
-              width: 50,
-            ),
+            const Spacer(),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(camera.serialNumber),
                 Text("${camera.value} ${camera.valueCurrency}"),
@@ -98,11 +96,12 @@ class LensListItem implements PhotoGearListItem {
                   if (lens.note != "") const Text("Note:")
                 ],
               ),
-              const SizedBox(
-                width: 50,
-              ),
+              // const SizedBox(
+              //   width: 50,
+              // ),
+              const Spacer(),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(lens.serialNumber),
                   Text("${lens.value} ${lens.valueCurrency}"),
