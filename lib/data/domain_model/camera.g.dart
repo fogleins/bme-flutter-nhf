@@ -15,13 +15,7 @@ abstract class _$CameraCWProxy {
 
   Camera note(String note);
 
-  Camera resolution(double resolution);
-
-  Camera sensorSize(SensorSize sensorSize);
-
   Camera serialNumber(String serialNumber);
-
-  Camera shutterCount(int shutterCount);
 
   Camera value(int value);
 
@@ -38,10 +32,7 @@ abstract class _$CameraCWProxy {
     dynamic? make,
     String? model,
     String? note,
-    double? resolution,
-    SensorSize? sensorSize,
     String? serialNumber,
-    int? shutterCount,
     int? value,
     String? valueCurrency,
   });
@@ -66,16 +57,7 @@ class _$CameraCWProxyImpl implements _$CameraCWProxy {
   Camera note(String note) => this(note: note);
 
   @override
-  Camera resolution(double resolution) => this(resolution: resolution);
-
-  @override
-  Camera sensorSize(SensorSize sensorSize) => this(sensorSize: sensorSize);
-
-  @override
   Camera serialNumber(String serialNumber) => this(serialNumber: serialNumber);
-
-  @override
-  Camera shutterCount(int shutterCount) => this(shutterCount: shutterCount);
 
   @override
   Camera value(int value) => this(value: value);
@@ -97,10 +79,7 @@ class _$CameraCWProxyImpl implements _$CameraCWProxy {
     Object? make = const $CopyWithPlaceholder(),
     Object? model = const $CopyWithPlaceholder(),
     Object? note = const $CopyWithPlaceholder(),
-    Object? resolution = const $CopyWithPlaceholder(),
-    Object? sensorSize = const $CopyWithPlaceholder(),
     Object? serialNumber = const $CopyWithPlaceholder(),
-    Object? shutterCount = const $CopyWithPlaceholder(),
     Object? value = const $CopyWithPlaceholder(),
     Object? valueCurrency = const $CopyWithPlaceholder(),
   }) {
@@ -121,26 +100,11 @@ class _$CameraCWProxyImpl implements _$CameraCWProxy {
           ? _value.note
           // ignore: cast_nullable_to_non_nullable
           : note as String,
-      resolution:
-          resolution == const $CopyWithPlaceholder() || resolution == null
-              ? _value.resolution
-              // ignore: cast_nullable_to_non_nullable
-              : resolution as double,
-      sensorSize:
-          sensorSize == const $CopyWithPlaceholder() || sensorSize == null
-              ? _value.sensorSize
-              // ignore: cast_nullable_to_non_nullable
-              : sensorSize as SensorSize,
       serialNumber:
           serialNumber == const $CopyWithPlaceholder() || serialNumber == null
               ? _value.serialNumber
               // ignore: cast_nullable_to_non_nullable
               : serialNumber as String,
-      shutterCount:
-          shutterCount == const $CopyWithPlaceholder() || shutterCount == null
-              ? _value.shutterCount
-              // ignore: cast_nullable_to_non_nullable
-              : shutterCount as int,
       value: value == const $CopyWithPlaceholder() || value == null
           ? _value.value
           // ignore: cast_nullable_to_non_nullable

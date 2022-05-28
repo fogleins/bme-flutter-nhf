@@ -39,10 +39,10 @@ class _EditLensPageState extends State<EditLensPage> {
       valueTextController.text = lens.value.toString();
       valueCurrencyTextController.text = lens.valueCurrency;
       noteTextController.text = lens.note;
-      maxApertureTextController.text = lens.maximumAperture.toString();
-      minApertureTextController.text = lens.minimumAperture.toString();
-      filterThreadTextController.text = lens.filterThreadDiameter.toString();
-      _checkboxState = lens.hasImageStabilization;
+      // maxApertureTextController.text = lens.maximumAperture.toString();
+      // minApertureTextController.text = lens.minimumAperture.toString();
+      // filterThreadTextController.text = lens.filterThreadDiameter.toString();
+      // _checkboxState = lens.hasImageStabilization;
     }
     return Scaffold(
       appBar: AppBar(
@@ -224,10 +224,11 @@ class _EditLensPageState extends State<EditLensPage> {
                 int.parse(valueTextController.text),
                 valueCurrencyTextController.text,
                 noteTextController.text,
-                double.parse(maxApertureTextController.text),
-                double.parse(minApertureTextController.text),
-                int.parse(filterThreadTextController.text),
-                _checkboxState);
+                // double.parse(maxApertureTextController.text),
+                // double.parse(minApertureTextController.text),
+                // int.parse(filterThreadTextController.text),
+                // _checkboxState
+                );
             await dataSource.updateOrInsertLens(lens);
             await widget.onUpdateCallback();
             Navigator.pop(context, true);

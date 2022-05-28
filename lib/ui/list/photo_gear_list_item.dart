@@ -40,9 +40,9 @@ class CameraListItem implements PhotoGearListItem {
                 children: [
                   Text(camera.serialNumber),
                   Text("${camera.value} ${camera.valueCurrency}"),
-                  Text(camera.sensorSize.index == 0 ? "APS-C" : "FullFrame"),
-                  Text("${camera.resolution} MP"),
-                  Text(camera.shutterCount.toString()),
+                  // Text(camera.sensorSize.index == 0 ? "APS-C" : "FullFrame"),
+                  // Text("${camera.resolution} MP"),
+                  // Text(camera.shutterCount.toString()),
                   if (camera.note != "") Text(camera.note)
                 ],
               ),
@@ -110,10 +110,10 @@ class LensListItem implements PhotoGearListItem {
                   children: [
                     Text(lens.serialNumber),
                     Text("${lens.value} ${lens.valueCurrency}"),
-                    Text("f/${lens.maximumAperture}"),
-                    Text("f/${lens.minimumAperture}"),
-                    Text("${lens.filterThreadDiameter} mm"),
-                    Text(lens.hasImageStabilization ? "Yes" : "No"),
+                    // Text("f/${lens.maximumAperture}"),
+                    // Text("f/${lens.minimumAperture}"),
+                    // Text("${lens.filterThreadDiameter} mm"),
+                    // Text(lens.hasImageStabilization ? "Yes" : "No"),
                     if (lens.note != "") Text(lens.note)
                   ],
                 ),
@@ -140,7 +140,8 @@ class LensListItem implements PhotoGearListItem {
   @override
   Widget buildTitle(BuildContext context) {
     return Text(
-      "${lens.make} ${lens.model} (${lens.minimumAperture == lens.maximumAperture ? "f/" + lens.maximumAperture.toString() : lens.maximumAperture.toString() + "-" + lens.minimumAperture.toString()})",
+      // "${lens.make} ${lens.model} (${lens.minimumAperture == lens.maximumAperture ? "f/" + lens.maximumAperture.toString() : lens.maximumAperture.toString() + "-" + lens.minimumAperture.toString()})",
+      "${lens.make} ${lens.model}",
       style: Theme.of(context).textTheme.headline5,
     );
   }

@@ -10,10 +10,10 @@ class FloorLens {
   int value;
   String valueCurrency;
   String note;
-  double maximumAperture;
-  double minimumAperture;
-  int filterThreadDiameter;
-  bool hasImageStabilization;
+  // double maximumAperture;
+  // double minimumAperture;
+  // int filterThreadDiameter;
+  // bool hasImageStabilization;
 
   FloorLens(
       {this.id,
@@ -23,8 +23,9 @@ class FloorLens {
       required this.value,
       required this.valueCurrency,
       required this.note,
-      required this.maximumAperture,
-      required this.minimumAperture,
-      required this.filterThreadDiameter,
-      required this.hasImageStabilization});
+      // required this.maximumAperture,
+      // required this.minimumAperture,
+      // required this.filterThreadDiameter,
+      // required this.hasImageStabilization
+      });
 }

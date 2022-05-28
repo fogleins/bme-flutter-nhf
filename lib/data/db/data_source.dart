@@ -57,17 +57,17 @@ class DataSource {
 
 extension FloorCameraToCamera on FloorCamera {
   Camera toDomainModel() {
-    SensorSize sensorSize;
-    switch (this.sensorSize) {
-      case 0:
-        sensorSize = SensorSize.apsC;
-        break;
-      case 1:
-        sensorSize = SensorSize.fullFrame;
-        break;
-      default:
-        throw ArgumentError("Cannot convert number to enum");
-    }
+    // SensorSize sensorSize;
+    // switch (this.sensorSize) {
+    //   case 0:
+    //     sensorSize = SensorSize.apsC;
+    //     break;
+    //   case 1:
+    //     sensorSize = SensorSize.fullFrame;
+    //     break;
+    //   default:
+    //     throw ArgumentError("Cannot convert number to enum");
+    // }
     return Camera(
         id: id,
         make: make,
@@ -76,9 +76,10 @@ extension FloorCameraToCamera on FloorCamera {
         value: value,
         valueCurrency: valueCurrency,
         note: note,
-        sensorSize: sensorSize,
-        resolution: resolution,
-        shutterCount: shutterCount);
+        // sensorSize: sensorSize,
+        // resolution: resolution,
+        // shutterCount: shutterCount
+    );
   }
 }
 
@@ -92,9 +93,10 @@ extension CameraToFloorCamera on Camera {
         value: value,
         valueCurrency: valueCurrency,
         note: note,
-        sensorSize: sensorSize.index,
-        resolution: resolution,
-        shutterCount: shutterCount);
+        // sensorSize: sensorSize.index,
+        // resolution: resolution,
+        // shutterCount: shutterCount
+    );
   }
 }
 
@@ -108,10 +110,11 @@ extension FloorLensToLens on FloorLens {
         value,
         valueCurrency,
         note,
-        maximumAperture,
-        minimumAperture,
-        filterThreadDiameter,
-        hasImageStabilization);
+        // maximumAperture,
+        // minimumAperture,
+        // filterThreadDiameter,
+        // hasImageStabilization
+    );
   }
 }
 
@@ -125,9 +128,10 @@ extension LensToFloorLens on Lens {
         value: value,
         valueCurrency: valueCurrency,
         note: note,
-        maximumAperture: maximumAperture,
-        minimumAperture: minimumAperture,
-        filterThreadDiameter: filterThreadDiameter,
-        hasImageStabilization: hasImageStabilization);
+        // maximumAperture: maximumAperture,
+        // minimumAperture: minimumAperture,
+        // filterThreadDiameter: filterThreadDiameter,
+        // hasImageStabilization: hasImageStabilization
+    );
   }
 }

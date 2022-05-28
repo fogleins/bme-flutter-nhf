@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 // @immutable
 // @CopyWith()
 class Lens extends PhotoGear {
-  final double maximumAperture;
-  final double minimumAperture;
-  final int filterThreadDiameter;
-  final bool hasImageStabilization;
+  // final double maximumAperture;
+  // final double minimumAperture;
+  // final int filterThreadDiameter;
+  // final bool hasImageStabilization;
 
   Lens(
       int? id,
@@ -18,9 +18,10 @@ class Lens extends PhotoGear {
       int value,
       String valueCurrency,
       String note,
-      this.maximumAperture,
-      this.minimumAperture,
-      this.filterThreadDiameter,
-      this.hasImageStabilization)
+      // this.maximumAperture,
+      // this.minimumAperture,
+      // this.filterThreadDiameter,
+      // this.hasImageStabilization
+      )
       : super(id, make, model, serialNumber, value, valueCurrency, note);
 }

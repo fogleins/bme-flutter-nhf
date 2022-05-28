@@ -84,9 +84,9 @@ class _$FloorPhotoGearDatabase extends FloorPhotoGearDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `camera` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL, `sensorSize` INTEGER NOT NULL, `resolution` REAL NOT NULL, `shutterCount` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `camera` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `lens` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL, `maximumAperture` REAL NOT NULL, `minimumAperture` REAL NOT NULL, `filterThreadDiameter` INTEGER NOT NULL, `hasImageStabilization` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `lens` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -118,10 +118,7 @@ class _$FloorCameraDao extends FloorCameraDao {
                   'serialNumber': item.serialNumber,
                   'value': item.value,
                   'valueCurrency': item.valueCurrency,
-                  'note': item.note,
-                  'sensorSize': item.sensorSize,
-                  'resolution': item.resolution,
-                  'shutterCount': item.shutterCount
+                  'note': item.note
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -142,10 +139,7 @@ class _$FloorCameraDao extends FloorCameraDao {
             serialNumber: row['serialNumber'] as String,
             value: row['value'] as int,
             valueCurrency: row['valueCurrency'] as String,
-            note: row['note'] as String,
-            sensorSize: row['sensorSize'] as int,
-            resolution: row['resolution'] as double,
-            shutterCount: row['shutterCount'] as int));
+            note: row['note'] as String));
   }
 
   @override
@@ -158,10 +152,7 @@ class _$FloorCameraDao extends FloorCameraDao {
             serialNumber: row['serialNumber'] as String,
             value: row['value'] as int,
             valueCurrency: row['valueCurrency'] as String,
-            note: row['note'] as String,
-            sensorSize: row['sensorSize'] as int,
-            resolution: row['resolution'] as double,
-            shutterCount: row['shutterCount'] as int),
+            note: row['note'] as String),
         arguments: [id]);
   }
 
@@ -191,11 +182,7 @@ class _$FloorLensDao extends FloorLensDao {
                   'serialNumber': item.serialNumber,
                   'value': item.value,
                   'valueCurrency': item.valueCurrency,
-                  'note': item.note,
-                  'maximumAperture': item.maximumAperture,
-                  'minimumAperture': item.minimumAperture,
-                  'filterThreadDiameter': item.filterThreadDiameter,
-                  'hasImageStabilization': item.hasImageStabilization ? 1 : 0
+                  'note': item.note
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -216,11 +203,7 @@ class _$FloorLensDao extends FloorLensDao {
             serialNumber: row['serialNumber'] as String,
             value: row['value'] as int,
             valueCurrency: row['valueCurrency'] as String,
-            note: row['note'] as String,
-            maximumAperture: row['maximumAperture'] as double,
-            minimumAperture: row['minimumAperture'] as double,
-            filterThreadDiameter: row['filterThreadDiameter'] as int,
-            hasImageStabilization: (row['hasImageStabilization'] as int) != 0));
+            note: row['note'] as String));
   }
 
   @override
@@ -233,11 +216,7 @@ class _$FloorLensDao extends FloorLensDao {
             serialNumber: row['serialNumber'] as String,
             value: row['value'] as int,
             valueCurrency: row['valueCurrency'] as String,
-            note: row['note'] as String,
-            maximumAperture: row['maximumAperture'] as double,
-            minimumAperture: row['minimumAperture'] as double,
-            filterThreadDiameter: row['filterThreadDiameter'] as int,
-            hasImageStabilization: (row['hasImageStabilization'] as int) != 0),
+            note: row['note'] as String),
         arguments: [id]);
   }
 

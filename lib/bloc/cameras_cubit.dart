@@ -48,9 +48,9 @@ class GearCubit extends Cubit<GearState> {
       value: value,
       valueCurrency: valueCurrency,
       note: note,
-      sensorSize: sensorSize,
-      resolution: resolution,
-      shutterCount: shutterCount
+      // sensorSize: sensorSize,
+      // resolution: resolution,
+      // shutterCount: shutterCount
     )
     );
     _emitAllGear();

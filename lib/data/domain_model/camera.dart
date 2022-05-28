@@ -9,9 +9,9 @@ enum SensorSize { apsC, fullFrame }
 @immutable
 @CopyWith()
 class Camera extends PhotoGear {
-  final SensorSize sensorSize;
-  final double resolution; // resolution in megapixels
-  final int shutterCount;
+  // final SensorSize sensorSize;
+  // final double resolution; // resolution in megapixels
+  // final int shutterCount;
 
   Camera(
       {int? id,
@@ -21,8 +21,9 @@ class Camera extends PhotoGear {
       required int value,
       required String valueCurrency,
       required String note,
-      required this.sensorSize,
-      required this.resolution,
-      required this.shutterCount})
+      // required this.sensorSize,
+      // required this.resolution,
+      // required this.shutterCount
+      })
       : super(id, make, model, serialNumber, value, valueCurrency, note);
 }

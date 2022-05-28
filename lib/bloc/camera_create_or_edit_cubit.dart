@@ -34,9 +34,10 @@ class CreateOrEditCameraCubit extends Cubit<CreateOrEditCameraState> {
         value: value,
         valueCurrency: valueCurrency,
         note: note,
-        sensorSize: sensorSize,
-        resolution: resolution,
-        shutterCount: shutterCount));
+        // sensorSize: sensorSize,
+        // resolution: resolution,
+        // shutterCount: shutterCount
+    ));
   }
 
   void updateState(
@@ -47,9 +48,10 @@ class CreateOrEditCameraCubit extends Cubit<CreateOrEditCameraState> {
       required int value,
       required String valueCurrency,
       required String note,
-      required SensorSize sensorSize,
-      required double resolution,
-      required int shutterCount}) {
+      // required SensorSize sensorSize,
+      // required double resolution,
+      // required int shutterCount
+      }) {
     emit(state.copyWith(
         camera: state.camera.copyWith(
             id: id,
@@ -59,9 +61,10 @@ class CreateOrEditCameraCubit extends Cubit<CreateOrEditCameraState> {
             value: value,
             valueCurrency: valueCurrency,
             note: note,
-            sensorSize: sensorSize,
-            resolution: resolution,
-            shutterCount: shutterCount)));
+            // sensorSize: sensorSize,
+            // resolution: resolution,
+            // shutterCount: shutterCount
+        )));
   }
 }
 
@@ -81,9 +84,10 @@ class CreateOrEditCameraState extends Equatable {
             value: -1,
             valueCurrency: "",
             note: "",
-            sensorSize: SensorSize.apsC,
-            resolution: -1,
-            shutterCount: -1);
+            // sensorSize: SensorSize.apsC,
+            // resolution: -1,
+            // shutterCount: -1
+  );
 
   @override
   List<Object> get props => [camera];

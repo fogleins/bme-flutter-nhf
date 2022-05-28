@@ -10,9 +10,9 @@ class FloorCamera {
   int value;
   String valueCurrency;
   String note;
-  int sensorSize;
-  double resolution;
-  int shutterCount;
+  // int sensorSize;
+  // double resolution;
+  // int shutterCount;
 
   FloorCamera(
       {this.id,
@@ -22,7 +22,8 @@ class FloorCamera {
       required this.value,
       required this.valueCurrency,
       required this.note,
-      required this.sensorSize,
-      required this.resolution,
-      required this.shutterCount});
+      // required this.sensorSize,
+      // required this.resolution,
+      // required this.shutterCount
+      });
 }

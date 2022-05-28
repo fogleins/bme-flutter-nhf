@@ -44,10 +44,10 @@ class _EditCameraPageState extends State<EditCameraPage> {
     valueTextController.text = camera.value.toString();
     valueCurrencyTextController.text = camera.valueCurrency;
     noteTextController.text = camera.note;
-    resolutionTextController.text = camera.resolution.toString();
-    shutterCountTextController.text = camera.shutterCount.toString();
-    dropdownValue =
-    camera.sensorSize.index == 0 ? sensorSizes[0] : sensorSizes[1];
+    // resolutionTextController.text = camera.resolution.toString();
+    // shutterCountTextController.text = camera.shutterCount.toString();
+    // dropdownValue =
+    // camera.sensorSize.index == 0 ? sensorSizes[0] : sensorSizes[1];
   }
 
   @override
