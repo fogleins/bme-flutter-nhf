@@ -68,8 +68,17 @@ extension FloorCameraToCamera on FloorCamera {
       default:
         throw ArgumentError("Cannot convert number to enum");
     }
-    return Camera(id, make, model, serialNumber, value, valueCurrency, note,
-        sensorSize, resolution, shutterCount);
+    return Camera(
+        id: id,
+        make: make,
+        model: model,
+        serialNumber: serialNumber,
+        value: value,
+        valueCurrency: valueCurrency,
+        note: note,
+        sensorSize: sensorSize,
+        resolution: resolution,
+        shutterCount: shutterCount);
   }
 }
 

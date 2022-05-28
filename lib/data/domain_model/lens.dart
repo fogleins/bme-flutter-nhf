@@ -1,5 +1,9 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:my_photo_gear/data/domain_model/photo_gear_base.dart';
+import 'package:flutter/foundation.dart';
 
+// @immutable
+// @CopyWith()
 class Lens extends PhotoGear {
   final double maximumAperture;
   final double minimumAperture;
