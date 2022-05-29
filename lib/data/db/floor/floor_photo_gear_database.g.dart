@@ -61,9 +61,7 @@ class _$FloorPhotoGearDatabase extends FloorPhotoGearDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  FloorCameraDao? _cameraDaoInstance;
-
-  FloorLensDao? _lensDaoInstance;
+  FloorPhotoGearDao? _photoGearDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
@@ -84,9 +82,7 @@ class _$FloorPhotoGearDatabase extends FloorPhotoGearDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `camera` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL, `sensorSize` INTEGER NOT NULL, `resolution` REAL NOT NULL, `shutterCount` INTEGER NOT NULL)');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `lens` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `note` TEXT NOT NULL, `maximumAperture` REAL NOT NULL, `minimumAperture` REAL NOT NULL, `filterThreadDiameter` INTEGER NOT NULL, `hasImageStabilization` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `photo_gear` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `make` TEXT NOT NULL, `model` TEXT NOT NULL, `serialNumber` TEXT NOT NULL, `value` INTEGER NOT NULL, `valueCurrency` TEXT NOT NULL, `type` INTEGER NOT NULL, `note` TEXT NOT NULL, `properties` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -95,33 +91,28 @@ class _$FloorPhotoGearDatabase extends FloorPhotoGearDatabase {
   }
 
   @override
-  FloorCameraDao get cameraDao {
-    return _cameraDaoInstance ??= _$FloorCameraDao(database, changeListener);
-  }
-
-  @override
-  FloorLensDao get lensDao {
-    return _lensDaoInstance ??= _$FloorLensDao(database, changeListener);
+  FloorPhotoGearDao get photoGearDao {
+    return _photoGearDaoInstance ??=
+        _$FloorPhotoGearDao(database, changeListener);
   }
 }
 
-class _$FloorCameraDao extends FloorCameraDao {
-  _$FloorCameraDao(this.database, this.changeListener)
+class _$FloorPhotoGearDao extends FloorPhotoGearDao {
+  _$FloorPhotoGearDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _floorCameraInsertionAdapter = InsertionAdapter(
+        _floorPhotoGearInsertionAdapter = InsertionAdapter(
             database,
-            'camera',
-            (FloorCamera item) => <String, Object?>{
+            'photo_gear',
+            (FloorPhotoGear item) => <String, Object?>{
                   'id': item.id,
                   'make': item.make,
                   'model': item.model,
                   'serialNumber': item.serialNumber,
                   'value': item.value,
                   'valueCurrency': item.valueCurrency,
+                  'type': item.type,
                   'note': item.note,
-                  'sensorSize': item.sensorSize,
-                  'resolution': item.resolution,
-                  'shutterCount': item.shutterCount
+                  'properties': item.properties
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -130,125 +121,48 @@ class _$FloorCameraDao extends FloorCameraDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<FloorCamera> _floorCameraInsertionAdapter;
+  final InsertionAdapter<FloorPhotoGear> _floorPhotoGearInsertionAdapter;
 
   @override
-  Future<List<FloorCamera>> getAllCameras() async {
-    return _queryAdapter.queryList('SELECT * FROM camera',
-        mapper: (Map<String, Object?> row) => FloorCamera(
+  Future<List<FloorPhotoGear>> getAllGear() async {
+    return _queryAdapter.queryList('SELECT * FROM photo_gear',
+        mapper: (Map<String, Object?> row) => FloorPhotoGear(
             id: row['id'] as int?,
             make: row['make'] as String,
             model: row['model'] as String,
             serialNumber: row['serialNumber'] as String,
             value: row['value'] as int,
             valueCurrency: row['valueCurrency'] as String,
+            type: row['type'] as int,
             note: row['note'] as String,
-            sensorSize: row['sensorSize'] as int,
-            resolution: row['resolution'] as double,
-            shutterCount: row['shutterCount'] as int));
+            properties: row['properties'] as String));
   }
 
   @override
-  Future<FloorCamera?> getCameraById(int id) async {
-    return _queryAdapter.query('SELECT * FROM camera WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => FloorCamera(
+  Future<FloorPhotoGear?> getGearById(int id) async {
+    return _queryAdapter.query('SELECT * FROM photo_gear WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => FloorPhotoGear(
             id: row['id'] as int?,
             make: row['make'] as String,
             model: row['model'] as String,
             serialNumber: row['serialNumber'] as String,
             value: row['value'] as int,
             valueCurrency: row['valueCurrency'] as String,
+            type: row['type'] as int,
             note: row['note'] as String,
-            sensorSize: row['sensorSize'] as int,
-            resolution: row['resolution'] as double,
-            shutterCount: row['shutterCount'] as int),
+            properties: row['properties'] as String),
         arguments: [id]);
   }
 
   @override
-  Future<void> deleteCamera(int id) async {
+  Future<void> delete(int id) async {
     await _queryAdapter
-        .queryNoReturn('DELETE FROM camera WHERE id = ?1', arguments: [id]);
+        .queryNoReturn('DELETE FROM photo_gear WHERE id = ?1', arguments: [id]);
   }
 
   @override
-  Future<void> updateOrInsertCamera(FloorCamera camera) async {
-    await _floorCameraInsertionAdapter.insert(
+  Future<void> updateOrInsert(FloorPhotoGear camera) async {
+    await _floorPhotoGearInsertionAdapter.insert(
         camera, OnConflictStrategy.replace);
-  }
-}
-
-class _$FloorLensDao extends FloorLensDao {
-  _$FloorLensDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _floorLensInsertionAdapter = InsertionAdapter(
-            database,
-            'lens',
-            (FloorLens item) => <String, Object?>{
-                  'id': item.id,
-                  'make': item.make,
-                  'model': item.model,
-                  'serialNumber': item.serialNumber,
-                  'value': item.value,
-                  'valueCurrency': item.valueCurrency,
-                  'note': item.note,
-                  'maximumAperture': item.maximumAperture,
-                  'minimumAperture': item.minimumAperture,
-                  'filterThreadDiameter': item.filterThreadDiameter,
-                  'hasImageStabilization': item.hasImageStabilization ? 1 : 0
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<FloorLens> _floorLensInsertionAdapter;
-
-  @override
-  Future<List<FloorLens>> getAllLenses() async {
-    return _queryAdapter.queryList('SELECT * FROM lens',
-        mapper: (Map<String, Object?> row) => FloorLens(
-            id: row['id'] as int?,
-            make: row['make'] as String,
-            model: row['model'] as String,
-            serialNumber: row['serialNumber'] as String,
-            value: row['value'] as int,
-            valueCurrency: row['valueCurrency'] as String,
-            note: row['note'] as String,
-            maximumAperture: row['maximumAperture'] as double,
-            minimumAperture: row['minimumAperture'] as double,
-            filterThreadDiameter: row['filterThreadDiameter'] as int,
-            hasImageStabilization: (row['hasImageStabilization'] as int) != 0));
-  }
-
-  @override
-  Future<FloorLens?> getLensById(int id) async {
-    return _queryAdapter.query('SELECT * FROM lens WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => FloorLens(
-            id: row['id'] as int?,
-            make: row['make'] as String,
-            model: row['model'] as String,
-            serialNumber: row['serialNumber'] as String,
-            value: row['value'] as int,
-            valueCurrency: row['valueCurrency'] as String,
-            note: row['note'] as String,
-            maximumAperture: row['maximumAperture'] as double,
-            minimumAperture: row['minimumAperture'] as double,
-            filterThreadDiameter: row['filterThreadDiameter'] as int,
-            hasImageStabilization: (row['hasImageStabilization'] as int) != 0),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteLens(int id) async {
-    await _queryAdapter
-        .queryNoReturn('DELETE FROM lens WHERE id = ?1', arguments: [id]);
-  }
-
-  @override
-  Future<void> updateOrInsertLens(FloorLens lens) async {
-    await _floorLensInsertionAdapter.insert(lens, OnConflictStrategy.replace);
   }
 }

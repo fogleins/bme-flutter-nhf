@@ -1,81 +1,38 @@
-import 'package:my_photo_gear/data/db/floor/camera/floor_camera.dart';
-import 'package:my_photo_gear/data/db/floor/lens/floor_lens.dart';
+import 'package:my_photo_gear/data/db/floor/photo_gear/floor_photo_gear.dart';
 import 'package:my_photo_gear/data/db/photo_gear_repository.dart';
-
-import '../domain_model/camera.dart';
-import '../domain_model/lens.dart';
+import 'package:my_photo_gear/data/domain_model/photo_gear_base.dart';
 
 class DataSource {
-  final PhotoGearRepository<FloorCamera> cameraDatabase;
-  final PhotoGearRepository<FloorLens> lensDatabase;
+  final PhotoGearRepository<FloorPhotoGear> gearDatabase;
 
-  DataSource(this.cameraDatabase, this.lensDatabase);
+  DataSource(this.gearDatabase);
 
   Future<void> init() async {
-    await cameraDatabase.init();
-    await lensDatabase.init();
+    await gearDatabase.init();
   }
 
-  // camera
-  Future<List<Camera>> getAllCameras() async {
-    final cameras = await cameraDatabase.getAll();
-    return cameras.map((floorCamera) => floorCamera.toDomainModel()).toList();
+  Future<List<PhotoGear>> getAllGear() async {
+    final gear = await gearDatabase.getAll();
+    return gear.map((floorGear) => floorGear.toDomainModel()).toList();
   }
 
-  Future<Camera> getCamera(int id) async {
-    final floorCamera = await cameraDatabase.getById(id);
-    return floorCamera.toDomainModel();
+  Future<PhotoGear> getGear(int id) async {
+    final floorGear = await gearDatabase.getById(id);
+    return floorGear.toDomainModel();
   }
 
-  Future<void> updateOrInsertCamera(Camera camera) async {
-    return cameraDatabase.updateOrInsert(camera.toDbModel());
+  Future<void> updateOrInsertGear(PhotoGear gear) async {
+    return gearDatabase.updateOrInsert(gear.toDbModel());
   }
 
-  Future<void> deleteCamera(Camera camera) async {
-    return cameraDatabase.delete(camera.toDbModel());
-  }
-
-  // lens
-  Future<List<Lens>> getAllLenses() async {
-    final lenses = await lensDatabase.getAll();
-    return lenses.map((floorLens) => floorLens.toDomainModel()).toList();
-  }
-
-  Future<Lens> getLens(int id) async {
-    final floorLens = await lensDatabase.getById(id);
-    return floorLens.toDomainModel();
-  }
-
-  Future<void> updateOrInsertLens(Lens lens) async {
-    return lensDatabase.updateOrInsert(lens.toDbModel());
-  }
-
-  Future<void> deleteLens(Lens lens) async {
-    return lensDatabase.delete(lens.toDbModel());
+  Future<void> deleteGear(PhotoGear gear) async {
+    return gearDatabase.delete(gear.toDbModel());
   }
 }
 
-extension FloorCameraToCamera on FloorCamera {
-  Camera toDomainModel() {
-    SensorSize sensorSize;
-    switch (this.sensorSize) {
-      case 0:
-        sensorSize = SensorSize.apsC;
-        break;
-      case 1:
-        sensorSize = SensorSize.fullFrame;
-        break;
-      default:
-        throw ArgumentError("Cannot convert number to enum");
-    }
-    return Camera(id, make, model, serialNumber, value, valueCurrency, note,
-        sensorSize, resolution, shutterCount);
-  }
-}
-
-extension CameraToFloorCamera on Camera {
-  FloorCamera toDbModel() {
-    return FloorCamera(
+extension FloorGearToGear on FloorPhotoGear {
+  PhotoGear toDomainModel() {
+    return PhotoGear(
         id: id,
         make: make,
         model: model,
@@ -83,32 +40,14 @@ extension CameraToFloorCamera on Camera {
         value: value,
         valueCurrency: valueCurrency,
         note: note,
-        sensorSize: sensorSize.index,
-        resolution: resolution,
-        shutterCount: shutterCount);
+        type: type == 0 ? PhotoGearType.gearCamera : PhotoGearType.gearLens,
+        properties: properties);
   }
 }
 
-extension FloorLensToLens on FloorLens {
-  Lens toDomainModel() {
-    return Lens(
-        id,
-        make,
-        model,
-        serialNumber,
-        value,
-        valueCurrency,
-        note,
-        maximumAperture,
-        minimumAperture,
-        filterThreadDiameter,
-        hasImageStabilization);
-  }
-}
-
-extension LensToFloorLens on Lens {
-  FloorLens toDbModel() {
-    return FloorLens(
+extension GearToFloorGear on PhotoGear {
+  FloorPhotoGear toDbModel() {
+    return FloorPhotoGear(
         id: id,
         make: make,
         model: model,
@@ -116,9 +55,7 @@ extension LensToFloorLens on Lens {
         value: value,
         valueCurrency: valueCurrency,
         note: note,
-        maximumAperture: maximumAperture,
-        minimumAperture: minimumAperture,
-        filterThreadDiameter: filterThreadDiameter,
-        hasImageStabilization: hasImageStabilization);
+        type: type.index,
+        properties: properties);
   }
 }

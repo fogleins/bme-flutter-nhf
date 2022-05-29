@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_photo_gear/data/domain_model/lens.dart';
+import 'package:my_photo_gear/data/domain_model/photo_gear_base.dart';
+// import 'package:my_photo_gear/data/domain_model/lens.dart';
 import 'package:my_photo_gear/main.dart';
 
 class EditLensPage extends StatefulWidget {
-  final Function onUpdateCallback;
-  final Lens? lens;
+  // final Function onUpdateCallback;
+  final PhotoGear? gear;
 
-  const EditLensPage({Key? key, required this.onUpdateCallback, this.lens})
+  const EditLensPage({Key? key/*, required this.onUpdateCallback*/, this.gear})
       : super(key: key);
 
   @override
@@ -31,34 +32,34 @@ class _EditLensPageState extends State<EditLensPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.lens != null) {
-      Lens lens = widget.lens!;
-      makeTextController.text = lens.make;
-      modelTextController.text = lens.model;
-      serialNoTextController.text = lens.serialNumber;
-      valueTextController.text = lens.value.toString();
-      valueCurrencyTextController.text = lens.valueCurrency;
-      noteTextController.text = lens.note;
-      maxApertureTextController.text = lens.maximumAperture.toString();
-      minApertureTextController.text = lens.minimumAperture.toString();
-      filterThreadTextController.text = lens.filterThreadDiameter.toString();
-      _checkboxState = lens.hasImageStabilization;
+    if (widget.gear != null) {
+      PhotoGear gear = widget.gear!;
+      makeTextController.text = gear.make;
+      modelTextController.text = gear.model;
+      serialNoTextController.text = gear.serialNumber;
+      valueTextController.text = gear.value.toString();
+      valueCurrencyTextController.text = gear.valueCurrency;
+      noteTextController.text = gear.note;
+      // maxApertureTextController.text = lens.maximumAperture.toString();
+      // minApertureTextController.text = lens.minimumAperture.toString();
+      // filterThreadTextController.text = lens.filterThreadDiameter.toString();
+      // _checkboxState = lens.hasImageStabilization;
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.lens == null
+        title: Text(widget.gear == null
             ? "Add a camera"
-            : "Edit ${widget.lens!.make} ${widget.lens!.model}"),
+            : "Edit ${widget.gear!.make} ${widget.gear!.model}"),
         actions: [
           IconButton(
-              onPressed: widget.lens == null
+              onPressed: widget.gear == null
                   ? null
                   : () async {
-                      await dataSource.deleteLens(widget.lens!);
+                      await dataSource.deleteGear(widget.gear!);
                       Navigator.pop(context, true);
                       var snackBar = SnackBar(
                           content: Text(
-                              "${widget.lens!.make} ${widget.lens!.model} deleted."));
+                              "${widget.gear!.make} ${widget.gear!.model} deleted."));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     },
               icon: const Icon(Icons.delete_outline))
@@ -216,23 +217,26 @@ class _EditLensPageState extends State<EditLensPage> {
               maxApertureTextController.text.isNotEmpty &&
               minApertureTextController.text.isNotEmpty &&
               filterThreadTextController.text.isNotEmpty) {
-            Lens lens = Lens(
-                widget.lens == null ? -1 : widget.lens!.id,
-                makeTextController.text,
-                modelTextController.text,
-                serialNoTextController.text,
-                int.parse(valueTextController.text),
-                valueCurrencyTextController.text,
-                noteTextController.text,
-                double.parse(maxApertureTextController.text),
-                double.parse(minApertureTextController.text),
-                int.parse(filterThreadTextController.text),
-                _checkboxState);
-            await dataSource.updateOrInsertLens(lens);
-            await widget.onUpdateCallback();
+            // PhotoGear gear = PhotoGear(
+                // widget.gear == null ? -1 : widget.gear!.id,
+                // makeTextController.text,
+                // modelTextController.text,
+                // serialNoTextController.text,
+                // int.parse(valueTextController.text),
+                // valueCurrencyTextController.text,
+                // noteTextController.text,
+                // PhotoGearType.gearLens,
+                // "TODO" // convert field values to json string
+                // double.parse(maxApertureTextController.text),
+                // double.parse(minApertureTextController.text),
+                // int.parse(filterThreadTextController.text),
+                // _checkboxState
+                // );
+            // await dataSource.updateOrInsertGear(gear);
+            // await widget.onUpdateCallback();
             Navigator.pop(context, true);
             // go back one more level to hide the dialog window if not editing
-            if (widget.lens == null) {
+            if (widget.gear == null) {
               Navigator.pop(context, true);
             }
           } else {
