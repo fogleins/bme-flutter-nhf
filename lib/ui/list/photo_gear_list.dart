@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_photo_gear/data/domain_model/photo_gear_base.dart';
+import 'package:my_photo_gear/ui/create/chooser.dart';
 import 'package:my_photo_gear/ui/list/photo_gear_list_item.dart';
 
 import '../../bloc/gear_cubit.dart';
@@ -55,13 +56,12 @@ class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> {
         },
         child: Scaffold(
             appBar: AppBar(title: const Text("MyPhotoGear")),
-            body: BlocBuilder<GearCubit, GearState>(builder: (context, state) {
+            body: BlocBuilder<GearCubit, GearState>(builder: (ctx, state) {
               if (state is Loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else if (state is GearLoaded) {
-
                 List<PhotoGear> items = state.gear;
                 int itemCount = items.length;
 
@@ -78,19 +78,21 @@ class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> {
                         onTap: () {
                           if (listItem.gear.type == PhotoGearType.gearCamera) {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => EditCameraPage(
-                                        gear: item,
-                                        )));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => EditCameraPage(
+                                              gear: item,
+                                            )))
+                                .then((_) => ctx.read<GearCubit>().getGear());
                           } else if (listItem.gear.type ==
                               PhotoGearType.gearLens) {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => EditLensPage(
-                                          gear: listItem.gear,
-                                        )));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => EditLensPage(
+                                              gear: listItem.gear,
+                                            )))
+                                .then((_) => ctx.read<GearCubit>().getGear());
                           }
                         },
                       );
@@ -103,12 +105,11 @@ class _MyPhotoGearHomePageState extends State<MyPhotoGearHomePage> {
             floatingActionButton: BlocBuilder<GearCubit, GearState>(
               builder: (context, state) => FloatingActionButton(
                   onPressed: () {
-                    Navigator.of(context).restorablePush(_showChooserDialog);
-                    // Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (_) => const EditCameraPage()))
-                    //     .then((_) => context.read<GearCubit>().getGear());
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const ChooserPage()))
+                        .then((_) => context.read<GearCubit>().getGear());
                   },
                   tooltip: "Add gear",
                   child: const Icon(Icons.add)),

@@ -1,17 +1,86 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_photo_gear/data/domain_model/photo_gear_base.dart';
-// import 'package:my_photo_gear/data/domain_model/camera.dart';
-//
-// import '../../data/domain_model/lens.dart';
 
 class PhotoGearListItem {
   PhotoGear gear;
+
   PhotoGearListItem(this.gear);
 
   Widget buildTitle(BuildContext context) {
     return Text(
       "${gear.make} ${gear.model}",
-      style: Theme.of(context).textTheme.headline5,
+      style: Theme
+          .of(context)
+          .textTheme
+          .headline5,
+    );
+  }
+
+  Widget _getCameraDetailsUi() {
+    Map<String, dynamic> properties = jsonDecode(gear.properties);
+    return Row(
+      children: [
+        Column(
+          // List of keys
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Serial number:", textAlign: TextAlign.start),
+            const Text("Value:", textAlign: TextAlign.start),
+            const Text("Sensor size:", textAlign: TextAlign.start),
+            const Text("Resolution:"),
+            const Text("Shutter count:"),
+            if (gear.note != "") const Text("Note:")
+          ],
+        ),
+        const Spacer(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(gear.serialNumber),
+            Text("${gear.value} ${gear.valueCurrency}"),
+            Text(properties['sensorSize']),
+            Text("${properties['resolution']} MP"),
+            Text(properties['shutterCount'].toString()),
+            if (gear.note != "") Text(gear.note)
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _getLensDetailsUi() {
+    Map<String, dynamic> properties = jsonDecode(gear.properties);
+    return Row(
+      children: [
+        Column(
+          // List of keys
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Serial number:", textAlign: TextAlign.start),
+            const Text("Value:", textAlign: TextAlign.start),
+            const Text("Maximum aperture:", textAlign: TextAlign.start),
+            const Text("Minimum aperture:", textAlign: TextAlign.start),
+            const Text("Filter thread diameter:", textAlign: TextAlign.start),
+            const Text("Image stabilization:"),
+            if (gear.note != "") const Text("Note:")
+          ],
+        ),
+        const Spacer(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(gear.serialNumber),
+            Text("${gear.value} ${gear.valueCurrency}"),
+            Text("f/${properties['maximumAperture']}"),
+            Text("f/${properties['minimumAperture']}"),
+            Text("${properties['filterThreadDiameter']} mm"),
+            Text(properties['hasImageStabilization']),
+            if (gear.note != "") Text(gear.note)
+          ],
+        ),
+      ],
     );
   }
 
@@ -20,34 +89,7 @@ class PhotoGearListItem {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: Row(
-            children: [
-              Column(
-                // List of keys
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text("Serial number:", textAlign: TextAlign.start),
-                  Text("Value:", textAlign: TextAlign.start),
-                  // const Text("Sensor size:", textAlign: TextAlign.start),
-                  // const Text("Resolution:"),
-                  // const Text("Shutter count:"),
-                  // if (camera.note != "") const Text("Note:")
-                ],
-              ),
-              const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(gear.serialNumber),
-                  Text("${gear.value} ${gear.valueCurrency}"),
-                  // Text(camera.sensorSize.index == 0 ? "APS-C" : "FullFrame"),
-                  // Text("${camera.resolution} MP"),
-                  // Text(camera.shutterCount.toString()),
-                  // if (camera.note != "") Text(camera.note)
-                ],
-              ),
-            ],
-          ),
+          child: gear.type == PhotoGearType.gearCamera ? _getCameraDetailsUi() : _getLensDetailsUi()
         ),
         Row(
           children: const [
@@ -66,141 +108,3 @@ class PhotoGearListItem {
     );
   }
 }
-// TODO
-// class CameraListItem implements PhotoGearListItem {
-//   final Camera camera;
-//
-//   CameraListItem(this.camera);
-//
-//   @override
-//   Widget buildContent(BuildContext context) {
-//     return Column(
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-//           child: Row(
-//             children: [
-//               Column(
-//                 // List of keys
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   const Text("Serial number:", textAlign: TextAlign.start),
-//                   const Text("Value:", textAlign: TextAlign.start),
-//                   const Text("Sensor size:", textAlign: TextAlign.start),
-//                   const Text("Resolution:"),
-//                   const Text("Shutter count:"),
-//                   if (camera.note != "") const Text("Note:")
-//                 ],
-//               ),
-//               const Spacer(),
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.end,
-//                 children: [
-//                   Text(camera.serialNumber),
-//                   Text("${camera.value} ${camera.valueCurrency}"),
-//                   // Text(camera.sensorSize.index == 0 ? "APS-C" : "FullFrame"),
-//                   // Text("${camera.resolution} MP"),
-//                   // Text(camera.shutterCount.toString()),
-//                   if (camera.note != "") Text(camera.note)
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//         Row(
-//           children: const [
-//             Expanded(
-//                 child: Padding(
-//               padding: EdgeInsets.only(top: 5.0),
-//               child: Divider(
-//                 color: Colors.grey,
-//                 thickness: 1,
-//                 height: 5,
-//               ),
-//             ))
-//           ],
-//         )
-//       ],
-//     );
-//   }
-//
-//   @override
-//   Widget buildTitle(BuildContext context) {
-//     return Text(
-//       "${camera.make} ${camera.model}",
-//       style: Theme.of(context).textTheme.headline5,
-//     );
-//   }
-// }
-//
-// class LensListItem implements PhotoGearListItem {
-//   final Lens lens;
-//
-//   LensListItem(this.lens);
-//
-//   @override
-//   Widget buildContent(BuildContext context) {
-//     return Column(
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-//             child: Row(
-//               children: [
-//                 Column(
-//                   // List of keys
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     const Text("Serial number:", textAlign: TextAlign.start),
-//                     const Text("Value:", textAlign: TextAlign.start),
-//                     const Text("Maximum aperture:", textAlign: TextAlign.start),
-//                     const Text("Minimum aperture:", textAlign: TextAlign.start),
-//                     const Text("Filter thread diameter:", textAlign: TextAlign.start),
-//                     const Text("Image stabilization:"),
-//                     if (lens.note != "") const Text("Note:")
-//                   ],
-//                 ),
-//                 // const SizedBox(
-//                 //   width: 50,
-//                 // ),
-//                 const Spacer(),
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.end,
-//                   children: [
-//                     Text(lens.serialNumber),
-//                     Text("${lens.value} ${lens.valueCurrency}"),
-//                     // Text("f/${lens.maximumAperture}"),
-//                     // Text("f/${lens.minimumAperture}"),
-//                     // Text("${lens.filterThreadDiameter} mm"),
-//                     // Text(lens.hasImageStabilization ? "Yes" : "No"),
-//                     if (lens.note != "") Text(lens.note)
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Row(
-//             children: const [
-//               Expanded(
-//                   child: Padding(
-//                     padding: EdgeInsets.only(top: 5.0),
-//                     child: Divider(
-//                       color: Colors.grey,
-//                       thickness: 1,
-//                       height: 5,
-//                     ),
-//                   ))
-//             ],
-//           )
-//         ],
-//     );
-//   }
-//
-//   @override
-//   Widget buildTitle(BuildContext context) {
-//     return Text(
-//       // "${lens.make} ${lens.model} (${lens.minimumAperture == lens.maximumAperture ? "f/" + lens.maximumAperture.toString() : lens.maximumAperture.toString() + "-" + lens.minimumAperture.toString()})",
-//       "${lens.make} ${lens.model}",
-//       style: Theme.of(context).textTheme.headline5,
-//     );
-//   }
-// }

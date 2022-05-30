@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_photo_gear/bloc/create_gear_cubit.dart';
-import 'package:my_photo_gear/bloc/gear_cubit.dart';
-import 'package:my_photo_gear/ui/list/photo_gear_list.dart';
 
 import '../../data/db/data_source.dart';
 import '../../data/domain_model/photo_gear_base.dart';
@@ -246,6 +244,7 @@ class _EditCameraPageState extends State<EditCameraPage> {
                   };
 
                   await context.read<CreateGearCubit>().submitGear(
+                      (widget.gear == null) ? null : widget.gear!.id,
                       makeTextController.value.text,
                       modelTextController.value.text,
                       serialNoTextController.value.text,

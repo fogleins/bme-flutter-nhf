@@ -13,6 +13,7 @@ class CreateGearCubit extends Cubit<CreateGearState> {
   CreateGearCubit(this._dataSource) : super(const CreateGearState.initial());
 
   Future<void> submitGear(
+      int? id,
       String make,
       String model,
       String serialNumber,
@@ -23,6 +24,7 @@ class CreateGearCubit extends Cubit<CreateGearState> {
       String properties) async {
     await _dataSource.updateOrInsertGear(
       state.gear.copyWith(
+          id: id,
           make: make,
           model: model,
           serialNumber: serialNumber,
@@ -35,7 +37,8 @@ class CreateGearCubit extends Cubit<CreateGearState> {
   }
 
   void updateState(
-      {String? make,
+      {int? id,
+      String? make,
       String? model,
       String? serialNumber,
       int? value,
@@ -45,6 +48,7 @@ class CreateGearCubit extends Cubit<CreateGearState> {
       String? properties}) {
     emit(state.copyWith(
         gear: state.gear.copyWith(
+            id: id,
             make: make,
             model: model,
             serialNumber: serialNumber,
